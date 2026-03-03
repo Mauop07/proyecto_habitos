@@ -1,19 +1,20 @@
-# Proyecto de Gestión de Hábitos - Semana 1
+# Proyecto de Gestión de Hábitos - Semana 2
 
-Este proyecto es una API construida con Node.js y Express para la gestión de hábitos, utilizando MongoDB Atlas como base de datos.
+Este repositorio contiene la solución dividida en Backend y Frontend.
 
-## Requisitos
-- Node.js instalado
-- Cuenta en MongoDB Atlas
+## Estructura del Proyecto
+- **/backend**: API construida con Express y MongoDB (Semana 1).
+- **/frontend**: Aplicación web construida con Next.js y Redux (Semana 2).
 
-## Instalación y Ejecución
-1. Clonar el repositorio.
-2. Ejecutar `npm install` para instalar las dependencias.
-3. Crear un archivo `.env` en la raíz con la variable `MONGO_URI` (Ver ejemplo en el código).
-4. Ejecutar el comando `node index.js` para iniciar el servidor.
+## Instrucciones de Ejecución
 
-## Endpoints
-- **POST /api/habitos**: Crear un nuevo hábito.
-- **GET /api/habitos**: Obtener todos los hábitos.
-- **PUT /api/habitos/:id**: Actualizar un hábito.
-- **DELETE /api/habitos/:id**: Eliminar un hábito.
+### Backend
+1. Entrar a `cd backend`.
+2. Ejecutar `npm install`.
+3. Configurar el archivo `.env`.
+4. Ejecutar `node index.js`.
+
+### Frontend
+1. Entrar a `cd frontend`.
+2. Ejecutar `npm install`.
+3. Ejecutar `npm run dev` para iniciar Next.js.
