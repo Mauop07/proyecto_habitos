@@ -10,9 +10,17 @@ const HabitoSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    completado: {
-        type: Boolean,
-        default: false
+    progreso: {
+        type: Number,
+        default: 0
+    },
+    ultimaFechaCompletado: {
+        type: Date,
+        default: null
+    },
+    usuario: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Usuario'
     },
     fechaCreacion: {
         type: Date,

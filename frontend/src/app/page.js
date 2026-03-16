@@ -1,23 +1,21 @@
 'use client'; 
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchHabitos, marcarHabitoDone } from '../store/habitoSlice';
 import './globals.css';
 
 export default function Home() {
-  const [habitos, setHabitos] = useState([
-    { id: 1, nombre: "Leer 10 páginas", progreso: 15 },
-    { id: 2, nombre: "Hacer ejercicio", progreso: 45 },
-    { id: 3, nombre: "Meditar", progreso: 65 }
-  ]);
+  const dispatch = useDispatch();
+  const { lista: habitos, status } = useSelector((state) => state.habitos);
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchHabitos());
+    }
+  }, [status, dispatch]);
 
   const manejarDone = (id) => {
-    const nuevosHabitos = habitos.map((habito) => {
-      if (habito.id === id) {
-        const nuevoProgreso = habito.progreso < 66 ? habito.progreso + 1 : 66;
-        return { ...habito, progreso: nuevoProgreso };
-      }
-      return habito;
-    });
-    setHabitos(nuevosHabitos);
+    dispatch(marcarHabitoDone(id));
   };
 
   return (
@@ -29,12 +27,12 @@ export default function Home() {
 
         <div className="space-y-6">
           {habitos.map((habito) => (
-            <div key={habito.id} className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <div key={habito._id} className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold text-gray-700">{habito.nombre}</h2>
                 
                 <button 
-                  onClick={() => manejarDone(habito.id)}
+                  onClick={() => manejarDone(habito._id)}
                   className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium transition-all active:scale-95"
                 >
                   Done

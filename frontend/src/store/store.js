@@ -1,7 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
+import habitoReducer from './habitoSlice';
 
 export const store = configureStore({
   reducer: {
-    habitos: (state = { lista: [] }, action) => state
+    habitos: habitoReducer
   },
 });
