@@ -12,7 +12,7 @@ exports.crearHabito = async (req, res) => {
 
 exports.obtenerHabitos = async (req, res) => {
     try {
-        const habitos = await Habito.find();
+        const habitos = await Habito.find({ usuario: req.query.usuario });
         res.json(habitos);
     } catch (error) {
         res.status(500).json({ mensaje: 'Error al obtener los hábitos' });

@@ -8,11 +8,17 @@
     "start": "next start"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "latest",
+    "axios": "latest",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-redux": "latest",
-    "@reduxjs/toolkit": "latest",
-    "axios": "latest"
+    "react-redux": "latest"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.1",
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.1"
   }
 }
