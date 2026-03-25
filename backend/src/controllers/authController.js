@@ -1,36 +1,61 @@
-const bcrypt = require('bcrypt');
 const Usuario = require('../models/Usuario');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-exports.registrar = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    
-    const nuevoUsuario = new Usuario({ email, password: hashedPassword });
-    await nuevoUsuario.save();
-    res.status(201).json({ mensaje: "Usuario creado con éxito" });
-  } catch (error) {
-    res.status(500).json({ error: "Error al registrar usuario" });
-  }
+exports.register = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const existe = await Usuario.findOne({ email });
+        if (existe) {
+            return res.status(400).json({ mensaje: 'Este correo ya está registrado' });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const nuevoUsuario = new Usuario({
+            email,
+            password: hashedPassword
+        });
+
+        await nuevoUsuario.save();
+        res.status(201).json({ mensaje: 'Usuario creado con éxito' });
+
+    } catch (error) {
+        console.error("Error en registro:", error);
+        res.status(500).json({ mensaje: 'Error interno del servidor' });
+    }
 };
 
 exports.login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    
-    const usuario = await Usuario.findOne({ email });
-    if (!usuario) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
-    }
+    try {
+        const { email, password } = req.body;
 
-    const esCorrecta = await bcrypt.compare(password, usuario.password);
-    
-    if (!esCorrecta) {
-      return res.status(401).json({ error: "Contraseña incorrecta" });
-    }
+        const usuario = await Usuario.findOne({ email });
+        if (!usuario) {
+            return res.status(401).json({ mensaje: 'Credenciales inválidas' });
+        }
 
-    res.status(200).json({ mensaje: "Login exitoso", usuarioId: usuario._id });
-  } catch (error) {
-    res.status(500).json({ error: "Error en el servidor al iniciar sesión" });
-  }
+        const esValida = await bcrypt.compare(password, usuario.password);
+        if (!esValida) {
+            return res.status(401).json({ mensaje: 'Credenciales inválidas' });
+        }
+
+        const token = jwt.sign(
+            { id: usuario._id },
+            process.env.JWT_SECRET,
+            { expiresIn: '7d' }
+        );
+
+        res.json({
+            token,
+            usuarioId: usuario._id,
+            mensaje: 'Bienvenido de nuevo'
+        });
+
+    } catch (error) {
+        console.error("Error en login:", error);
+        res.status(500).json({ mensaje: 'Error interno del servidor' });
+    }
 };

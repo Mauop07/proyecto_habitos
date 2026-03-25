@@ -12,10 +12,29 @@ exports.crearHabito = async (req, res) => {
 
 exports.obtenerHabitos = async (req, res) => {
     try {
-        const habitos = await Habito.find({ usuario: req.query.usuario });
-        res.json(habitos);
+        const habitos = await Habito.find({ usuario: req.usuarioId });
+        const hoy = new Date();
+        hoy.setHours(0, 0, 0, 0);
+
+        const habitosActualizados = await Promise.all(habitos.map(async (habito) => {
+            if (habito.ultimaFechaCompletado) {
+                const ultimaFecha = new Date(habito.ultimaFechaCompletado);
+                ultimaFecha.setHours(0, 0, 0, 0);
+
+                const diferenciaTiempo = hoy.getTime() - ultimaFecha.getTime();
+                const diferenciaDias = diferenciaTiempo / (1000 * 3600 * 24);
+
+                if (diferenciaDias > 1) {
+                    habito.progreso = 0;
+                    await habito.save();
+                }
+            }
+            return habito;
+        }));
+
+        res.json(habitosActualizados);
     } catch (error) {
-        res.status(500).json({ mensaje: 'Error al obtener los hábitos' });
+        res.status(500).json({ mensaje: 'Error al obtener hábitos' });
     }
 };
 
@@ -41,13 +60,13 @@ exports.marcarDone = async (req, res) => {
             } else if (diferenciaDias === 1) {
                 nuevoProgreso += 1;
             } else {
-                nuevoProgreso = 1; // Racha rota, reinicio
+                nuevoProgreso = 1; 
             }
         } else {
-            nuevoProgreso = 1; // Primera vez
+            nuevoProgreso = 1; 
         }
 
-        // Límite de 66 días según el libro
+        
         habito.progreso = Math.min(nuevoProgreso, 66);
         habito.ultimaFechaCompletado = hoy;
 
