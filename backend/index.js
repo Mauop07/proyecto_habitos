@@ -23,3 +23,5 @@ app.listen(PORT, () => {
     console.log(`Servidor corriendo con éxito en el puerto ${PORT}`);
     console.log(`Checklist: AuthRoutes e HabitoRoutes cargados.`);
 });
+
+module.exports = app;
