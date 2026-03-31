@@ -1,19 +1,40 @@
-# Proyecto de Gestión de Hábitos - Semana 1
+# Proyecto de Gestión de Hábitos Atómicos (Semana 5)
 
-Este proyecto es una API construida con Node.js y Express para la gestión de hábitos, utilizando MongoDB Atlas como base de datos.
+Este repositorio contiene la solución completa dividida en Backend y Frontend para la gestión de hábitos basados en el libro *Hábitos Atómicos* (meta de 66 días).
 
-## Requisitos
-- Node.js instalado
-- Cuenta en MongoDB Atlas
+## Estructura del Proyecto
+- **/backend**: API REST construida con Node.js, Express y MongoDB Atlas.
+- **/frontend**: Aplicación web construida con Next.js, Redux Toolkit y Tailwind CSS.
 
-## Instalación y Ejecución
-1. Clonar el repositorio.
-2. Ejecutar `npm install` para instalar las dependencias.
-3. Crear un archivo `.env` en la raíz con la variable `MONGO_URI` (Ver ejemplo en el código).
-4. Ejecutar el comando `node index.js` para iniciar el servidor.
+## Instrucciones de Ejecución
 
-## Endpoints
-- **POST /api/habitos**: Crear un nuevo hábito.
-- **GET /api/habitos**: Obtener todos los hábitos.
-- **PUT /api/habitos/:id**: Actualizar un hábito.
-- **DELETE /api/habitos/:id**: Eliminar un hábito.
+### 1. Configuración de Base de Datos (.env)
+Es **obligatorio** crear un archivo `.env` en la raíz de la carpeta `/backend` con las siguientes variables:
+
+```env
+PORT=5000
+MONGO_URI=tu_string_de_conexion_a_mongodb_atlas
+JWT_SECRET=tu_clave_secreta_jwt
+```
+
+### 2. Instalación y Arranque
+
+**Backend:**
+```bash
+cd backend
+npm install
+node index.js
+```
+
+**Frontend:**
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+## Cambios Clave Semana 5
+- **Seguridad:** Autenticación con JWT y contraseñas encriptadas (Bcrypt).
+- **Lógica de Racha:** Reinicio automático a 0 si pasan más de 24 horas sin completar el hábito.
+- **Persistencia:** Gestión de sesión con Redux y LocalStorage.
+- **Fix:** Solucionado error de hidratación en Next.js.

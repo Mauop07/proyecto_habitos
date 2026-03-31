@@ -10,13 +10,16 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+app.use('/api/auth', require('./src/routes/authRoutes'));
+
 app.use('/api/habitos', require('./src/routes/habitoRoutes'));
 
 app.get('/', (req, res) => {
-    res.send('Servidor vivo y listo para la tarea');
+    res.send('Servidor Vivo - Semana 4: Gestión de Hábitos y Seguridad');
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
+    console.log(`Servidor corriendo con éxito en el puerto ${PORT}`);
+    console.log(`Checklist: AuthRoutes e HabitoRoutes cargados.`);
 });

@@ -4,8 +4,8 @@ const habitoController = require('../controllers/habitoController');
 
 router.post('/', habitoController.crearHabito); 
 router.get('/', habitoController.obtenerHabitos); 
-
-router.put('/:id', habitoController.actualizarHabito); // Actualizar
-router.delete('/:id', habitoController.eliminarHabito); // Eliminar
+router.put('/:id/done', habitoController.marcarDone); 
+router.put('/:id', habitoController.actualizarHabito); 
+router.delete('/:id', habitoController.eliminarHabito); 
 
 module.exports = router;
