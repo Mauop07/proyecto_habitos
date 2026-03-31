@@ -9,9 +9,11 @@ connectDB();
 
 app.use(cors({
     origin: 'https://proyecto-habitos-front.vercel.app',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+app.options('*', cors());
 app.use(express.json());
 
 app.use('/api/auth', require('./src/routes/authRoutes'));
